@@ -1,11 +1,10 @@
 package model;
 
-public class NotEnoughArgumentsException extends Exception {
+public class NegativeValuesException extends Exception{
     /**
      * @param message - the error message that will be returned when raising the exception
      */
-    public NotEnoughArgumentsException(String message) {
+    public NegativeValuesException(String message) {
         super(message);
     }
-
 }

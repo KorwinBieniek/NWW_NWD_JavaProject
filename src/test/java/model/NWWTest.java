@@ -19,7 +19,7 @@ class NWWTest {
 
     @Test
     @DisplayName("Simple values should work")
-    public void positiveValues() {
+    public void positiveValues() throws NegativeValuesException {
         ArrayList<Integer> test_list = new ArrayList<>();
         test_list.add(1);
         test_list.add(2);
@@ -28,7 +28,7 @@ class NWWTest {
 
     @Test
     @DisplayName("Zero value should work")
-    public void zeroValues() {
+    public void zeroValues() throws NegativeValuesException {
         ArrayList<Integer> test_list = new ArrayList<>();
         test_list.add(0);
         assertEquals(0, nww.leastCommonMultiplier(test_list));
@@ -36,7 +36,7 @@ class NWWTest {
 
     @Test
     @DisplayName("Negative values should work")
-    public void negativeValues() {
+    public void negativeValues() throws NegativeValuesException {
         ArrayList<Integer> test_list = new ArrayList<>();
         test_list.add(-1);
         test_list.add(-2);

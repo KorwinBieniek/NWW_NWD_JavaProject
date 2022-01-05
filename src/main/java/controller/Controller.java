@@ -5,64 +5,98 @@
  */
 package controller;
 
+import model.NegativeValuesException;
 import model.NotEnoughArgumentsException;
 import model.NWD;
 import model.NWW;
 import view.ResultView;
 
+import java.util.ArrayList;
+
 /**
- * @author SuperStudent
+ * @author Korwin Bieniek
+ * @version 1.1.2
  */
 public class Controller {
-    private final NWD NWDModel;
-    private final NWW NWWModel;
+    private final NWD nwdModel;
+    private final NWW nwwModel;
     private final ResultView view;
 
     /**
-     * @param NWDmodel
-     * @param NWWModel
-     * @param view
+     * @param nwdModel - the instance of an nwdModel object from NWD class
+     * @param nwwModel - the instance of an nwwModel object from NWW class
+     * @param view     - the instance of a view class
      */
-    public Controller(NWD NWDmodel, NWW NWWModel, ResultView view) {
-        this.NWDModel = NWDmodel;
-        this.NWWModel = NWWModel;
+    public Controller(NWD nwdModel, NWW nwwModel, ResultView view) {
+        this.nwdModel = nwdModel;
+        this.nwwModel = nwwModel;
         this.view = view;
     }
 
     public void setNWDValue(int value) {
-        NWDModel.setDivisorValue(value);
+        nwdModel.setDivisorValue(value);
     }
 
     /**
-     * @return
+     * @return the divisor value
      */
     public int getNWDValue() {
-        return NWDModel.getDivisorValue();
+        return nwdModel.getDivisorValue();
     }
 
     public void setNWWValue(int value) {
-        NWWModel.setMultiplyValue(value);
+        nwwModel.setMultiplyValue(value);
     }
 
     /**
-     * @return
+     * @return the multiply value
      */
     public int getNWWValue() {
-        return NWWModel.getMultiplyValue();
+        return nwwModel.getMultiplyValue();
     }
 
     public void updateView() {
-        view.printValue(NWDModel.getDivisorValue(), NWWModel.getMultiplyValue());
+        view.printValue(nwdModel.getDivisorValue(), nwwModel.getMultiplyValue());
     }
 
     /**
-     * @param firstLength
-     * @param secondLength
-     * @throws NotEnoughArgumentsException
+     * @param firstLength  - the default number of values
+     * @param secondLength - the actual number of values
+     * @throws NotEnoughArgumentsException - the exception will be thrown when the length of the command line arguments will be incorrect
      */
     public void throwNotEnoughArgumentException(int firstLength, int secondLength) throws NotEnoughArgumentsException {
         if (firstLength > secondLength || firstLength < secondLength) {
             throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
         }
+    }
+
+    /**
+     * @author Korwin Bieniek
+     * @version 2.0.1
+     *
+     * First parameter is the length of the list and next parameters are the values.
+     * The number of values provided has to be equal to the length, otherwise an exception will be thrown.
+     */
+    /**
+     * @param args - command line arguments, where the first one dictates the number of values that will be input and the next numbers are the values.
+     * @throws NotEnoughArgumentsException - custom made exception to catch, whether there are not enough or too many command line arguments.
+     */
+    public static void main(String[] args) throws NotEnoughArgumentsException, NegativeValuesException {
+        NWD nwdModel = new NWD();
+        NWW nwwModel = new NWW();
+        ResultView view = new ResultView();
+        Controller controller = new Controller(nwdModel, nwwModel, view);
+        ArrayList<Integer> values = new ArrayList<>();
+        int listLength = Integer.parseInt(args[0]);
+        controller.throwNotEnoughArgumentException(listLength, args.length - 1);
+        for (int i = 1; i <= listLength; i++) {
+            values.add(Integer.parseInt(args[i]));
+        }
+        try {
+            view.printValue(nwdModel.greatestCommonDivisorForArray(values), nwwModel.leastCommonMultiplier(values));
+        } catch(NegativeValuesException e) {
+            System.out.println("Negative values are not allowed");
+        }
+
     }
 }

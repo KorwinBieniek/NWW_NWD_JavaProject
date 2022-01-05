@@ -6,16 +6,17 @@
 package view;
 
 /**
- * @author SuperStudent
+ * @author Korwin Bieniek
+ * @version 1.0.1
  */
 public class ResultView {
 
     /**
-     * @param NWDvalue
-     * @param NWWValue
+     * @param nwdValue - the result of calculating NWD
+     * @param nwwValue - the result of calculating NWW
      */
-    public void printValue(int NWDvalue, int NWWValue) {
-        System.out.println("NWD Value: " + NWDvalue
-                + " NWW Value:" + NWWValue);
+    public void printValue(int nwdValue, int nwwValue) {
+        System.out.println("NWD Value: " + nwdValue
+                + " NWW Value:" + nwwValue);
     }
 }

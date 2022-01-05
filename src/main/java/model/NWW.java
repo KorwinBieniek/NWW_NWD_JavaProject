@@ -14,24 +14,24 @@ public class NWW {
     private int multiplyValue;
 
     /**
-     * @return
+     * @return multiply value
      */
     public int getMultiplyValue() {
         return multiplyValue;
     }
 
     /**
-     * @param multiplyValue
+     * @param multiplyValue - the value that is going to be multiplied
      */
     public void setMultiplyValue(int multiplyValue) {
         this.multiplyValue = multiplyValue;
     }
 
     /**
-     * @param arrOfElements
-     * @return
+     * @param arrOfElements - the array of values that the least common multiplier will be calculated on
+     * @return least common multiplier of a list of values
      */
-    public int leastCommonMultiplier(ArrayList<Integer> arrOfElements) {
+    public int leastCommonMultiplier(ArrayList<Integer> arrOfElements) throws NegativeValuesException {
         int lcmOfArrayElement = 1;
         int divisor = 2;
 
@@ -40,6 +40,9 @@ public class NWW {
             boolean isDivisible = false;
 
             for (int i = 0; i < arrOfElements.size(); i++) {
+                if(arrOfElements.get(i) < 0) {
+                    throw new NegativeValuesException("No negative are allowed");
+                }
                 if (arrOfElements.get(i) == 0) {
                     return 0;
                 } else if (arrOfElements.get(i) < 0) {

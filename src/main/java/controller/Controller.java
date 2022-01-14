@@ -64,11 +64,6 @@ public class Controller {
      * @param secondLength - the actual number of values
      * @throws NotEnoughArgumentsException - the exception will be thrown when the length of the command line arguments will be incorrect
      */
-    public void throwNotEnoughArgumentException(int firstLength, int secondLength) throws NotEnoughArgumentsException {
-        if (firstLength > secondLength || firstLength < secondLength) {
-            throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
-        }
-    }
 
     /**
      * @author Korwin Bieniek
@@ -85,17 +80,17 @@ public class Controller {
         NWD nwdModel = new NWD();
         NWW nwwModel = new NWW();
         ResultView view = new ResultView();
-        Controller controller = new Controller(nwdModel, nwwModel, view);
         ArrayList<Integer> values = new ArrayList<>();
         int listLength = Integer.parseInt(args[0]);
-        controller.throwNotEnoughArgumentException(listLength, args.length - 1);
         for (int i = 1; i <= listLength; i++) {
             values.add(Integer.parseInt(args[i]));
         }
         try {
-            view.printValue(nwdModel.greatestCommonDivisorForArray(values), nwwModel.leastCommonMultiplier(values));
-        } catch(NegativeValuesException e) {
+            view.printValue(nwdModel.greatestCommonDivisorForArray(listLength, args.length - 1, values), nwwModel.leastCommonMultiplier(listLength, args.length - 1, values));
+        } catch (NegativeValuesException e) {
             System.out.println("Negative values are not allowed");
+        } catch (NotEnoughArgumentsException e) {
+            System.out.println("The number of arguments is incorrect");
         }
 
     }

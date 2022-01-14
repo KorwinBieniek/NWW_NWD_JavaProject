@@ -8,7 +8,8 @@ package model;
 import java.util.ArrayList;
 
 /**
- * @author SuperStudent
+ * @author Korwin Bieniek
+ * * @version 1.0.0
  */
 public class NWW {
     private int multiplyValue;
@@ -31,23 +32,27 @@ public class NWW {
      * @param arrOfElements - the array of values that the least common multiplier will be calculated on
      * @return least common multiplier of a list of values
      */
-    public int leastCommonMultiplier(ArrayList<Integer> arrOfElements) throws NegativeValuesException {
+    public int leastCommonMultiplier(int firstLength, int secondLength, ArrayList<Integer> arrOfElements) throws NegativeValuesException, NotEnoughArgumentsException {
         int lcmOfArrayElement = 1;
         int divisor = 2;
+
+        if (firstLength > secondLength || firstLength < secondLength) {
+            throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
+        }
 
         while (true) {
             int counter = 0;
             boolean isDivisible = false;
 
             for (int i = 0; i < arrOfElements.size(); i++) {
-                if(arrOfElements.get(i) < 0) {
+                if (arrOfElements.get(i) < 0) {
                     throw new NegativeValuesException("No negative are allowed");
                 }
                 if (arrOfElements.get(i) == 0) {
                     return 0;
-                } else if (arrOfElements.get(i) < 0) {
-                    arrOfElements.set(i, arrOfElements.get(i) * -1);
-                }
+                } //else if (arrOfElements.get(i) < 0) {
+                //arrOfElements.set(i, arrOfElements.get(i) * -1);
+                //}
                 if (arrOfElements.get(i) == 1) {
                     counter++;
                 }

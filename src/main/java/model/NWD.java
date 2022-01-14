@@ -43,10 +43,13 @@ public class NWD {
      * @param arrOfNums - array of values that the greatest common divisor will be taken from
      * @return greatest common divisor of a list of numbers
      */
-    public Integer greatestCommonDivisorForArray(ArrayList<Integer> arrOfNums) throws NegativeValuesException {
+    public Integer greatestCommonDivisorForArray(int firstLength, int secondLength, ArrayList<Integer> arrOfNums) throws NegativeValuesException, NotEnoughArgumentsException {
         int result = 0;
+        if (firstLength > secondLength || firstLength < secondLength) {
+            throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
+        }
         for (int element : arrOfNums) {
-            if(element < 0) {
+            if (element < 0) {
                 throw new NegativeValuesException("No negative are allowed");
             }
             result = greatestCommonDivisor(result, element);
@@ -57,4 +60,5 @@ public class NWD {
         }
         return result;
     }
+
 }

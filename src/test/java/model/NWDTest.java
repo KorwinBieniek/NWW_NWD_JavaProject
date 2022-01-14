@@ -2,68 +2,160 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Korwin Bieniek
+ * * @version 1.0.0
+ */
 class NWDTest {
 
     NWD nwd;
 
+    /**
+     * generates instance of an NWD object
+     */
     @BeforeEach
     void setUp() {
         nwd = new NWD();
     }
 
-    @Test
-    @DisplayName("Simple values should work")
-    public void positiveValues() throws NegativeValuesException {
-        ArrayList<Integer> test_list = new ArrayList<>();
-        test_list.add(1);
-        test_list.add(2);
-        assertEquals(1, nwd.greatestCommonDivisorForArray(test_list));
+    /**
+     * generates Stream of arguments to parametrize the test
+     */
+    private static Stream<Arguments> providePositiveTestValues() {
+        return Stream.of(
+                Arguments.of(1, 0, 1, 1),
+                Arguments.of(4, 14, 6, 2),
+                Arguments.of(18, 12, 30, 6),
+                Arguments.of(53252, 22, 241, 1),
+                Arguments.of(1, 1, 1, 1),
+                Arguments.of(0, 5, 0, 5));
     }
 
-    @Test
-    @DisplayName("Zero value should work")
-    public void zeroValue() throws NegativeValuesException {
-        ArrayList<Integer> test_list = new ArrayList<>();
-        test_list.add(0);
-        assertEquals(0, nwd.greatestCommonDivisorForArray(test_list));
+    private static Stream<Arguments> provideNegativeTestValues() {
+        return Stream.of(
+                Arguments.of(-1, 0, -1),
+                Arguments.of(-2, 1, 2),
+                Arguments.of(-2, -1, -2));
     }
 
-    static ArrayList<Integer> generateData() {
-        ArrayList<Integer> numbers = new ArrayList<>();
-        numbers.add(5);
-        numbers.add(11);
-        numbers.add(3);
-        return (numbers);
+    private static Stream<Arguments> provideZeroTestValues() {
+        return Stream.of(
+                Arguments.of(0, 0, 0, 0));
     }
 
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     * @param result - the fourth value of the arguments passed from the stream, which will be used as a result to assert.
+     */
     @ParameterizedTest
-    @DisplayName("Negative values should work")
-    @ValueSource(ints = {1, 3, 5, -3, 15})
-    public void negativeValues(int p) throws NegativeValuesException {
+    @MethodSource("providePositiveTestValues")
+    @DisplayName("Positive values should work")
+    public void positiveValues(int first, int second, int third, int result) throws NegativeValuesException, NotEnoughArgumentsException {
         ArrayList<Integer> testList = new ArrayList<>();
-        testList.add(p);
-        assertEquals(1, nwd.greatestCommonDivisorForArray(testList));
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList));
     }
 
-    @Test
-    @DisplayName("Null values should return an error")
-    public void nullValues() {
-        ArrayList<Integer> test_list = new ArrayList<>();
-        test_list.add(null);
-        assertThrows(NullPointerException.class, () -> nwd.greatestCommonDivisorForArray(test_list));
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     * @param result - the fourth value of the arguments passed from the stream, which will be used as a result to assert.
+     */
+    @ParameterizedTest
+    @MethodSource("provideZeroTestValues")
+    @DisplayName("Zero value should work")
+    public void zeroValue(int first, int second, int third, int result) throws NegativeValuesException, NotEnoughArgumentsException {
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList));
+    }
+
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     */
+    @ParameterizedTest
+    @MethodSource("provideNegativeTestValues")
+    @DisplayName("Negative values should not work. They should throw an exception")
+    public void negativeValues(int first, int second, int third) {
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        assertThrows(NegativeValuesException.class, () -> nwd.greatestCommonDivisorForArray(3, 3, testList));
+    }
+
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     */
+    @ParameterizedTest
+    @MethodSource("providePositiveTestValues")
+    @DisplayName("Null reference to the list should throw NullPointerException.")
+    public void listReferenceIsNull(int first, int second, int third) {
+        assertThrows(NullPointerException.class, () -> {
+            nwd.greatestCommonDivisorForArray(3, 3, null);
+        });
+    }
+
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     */
+    @ParameterizedTest
+    @MethodSource("providePositiveTestValues")
+    @DisplayName("The message below should appear when there are not enough values provided")
+    public void isExceptionMessageCorrectForNotEnoughValues(int first, int second, int third) throws NegativeValuesException, NotEnoughArgumentsException {
+
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
+                () -> nwd.greatestCommonDivisorForArray(2, 3, testList));
+
+
+        assertEquals(Strings.FIRST_MESSAGE.toString(), exception.getMessage());
+    }
+
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     */
+    @ParameterizedTest
+    @MethodSource("providePositiveTestValues")
+    @DisplayName("The message below should appear when there are too many values provided")
+    public void isExceptionMessageCorrectForTooManyValues(int first, int second, int third) throws NegativeValuesException, NotEnoughArgumentsException {
+
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
+                () -> nwd.greatestCommonDivisorForArray(4, 3, testList));
+
+
+        assertEquals(Strings.SECOND_MESSAGE.toString(), exception.getMessage());
     }
 
 

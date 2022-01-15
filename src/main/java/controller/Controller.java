@@ -9,8 +9,10 @@ import model.NegativeValuesException;
 import model.NotEnoughArgumentsException;
 import model.NWD;
 import model.NWW;
+import view.GUIClass;
 import view.ResultView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -77,7 +79,9 @@ public class Controller {
      * @throws NotEnoughArgumentsException - custom made exception to catch, whether there are not enough or too many command line arguments.
      */
     public static void main(String[] args) throws NotEnoughArgumentsException, NegativeValuesException {
-        NWD nwdModel = new NWD();
+        GUIClass application = new GUIClass();
+        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*NWD nwdModel = new NWD();
         NWW nwwModel = new NWW();
         ResultView view = new ResultView();
         ArrayList<Integer> values = new ArrayList<>();
@@ -91,7 +95,7 @@ public class Controller {
             System.out.println("Negative values are not allowed");
         } catch (NotEnoughArgumentsException e) {
             System.out.println("The number of arguments is incorrect");
-        }
+        }*/
 
     }
 }

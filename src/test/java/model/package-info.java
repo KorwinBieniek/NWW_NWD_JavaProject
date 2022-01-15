@@ -1,7 +1,7 @@
 /**
  *
  * <p>
- * Ten moduł testuje model z  części implementacyjnej programu.
+ * Ten moduł testuje model z części implementacyjnej programu.
  * </p>
  *
  * @since 1.0

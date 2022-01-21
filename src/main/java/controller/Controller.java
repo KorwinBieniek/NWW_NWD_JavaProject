@@ -5,11 +5,8 @@
  */
 package controller;
 
-import model.NegativeValuesException;
-import model.NotEnoughArgumentsException;
-import model.NWD;
-import model.NWW;
-import view.GUIClass;
+import model.*;
+import view.GraphicalUserInterface;
 import view.ResultView;
 
 import javax.swing.*;
@@ -78,10 +75,27 @@ public class Controller {
      * @param args - command line arguments, where the first one dictates the number of values that will be input and the next numbers are the values.
      * @throws NotEnoughArgumentsException - custom made exception to catch, whether there are not enough or too many command line arguments.
      */
+    public static ArrayList<Integer> values = new ArrayList<>();
+    public static int listLength;
+
     public static void main(String[] args) throws NotEnoughArgumentsException, NegativeValuesException {
-        GUIClass application = new GUIClass();
+        GuiExceptions exceptions = new GuiExceptions();
+        listLength = Integer.parseInt(args[0]);
+        try {
+            for (int i = 1; i <= listLength; i++) {
+                values.add(Integer.parseInt(args[i]));
+            }
+        } catch(ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+            exceptions.showNotEnoughArgumentsException();
+            System.exit(0);
+        }
+        GraphicalUserInterface application = new GraphicalUserInterface();
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*NWD nwdModel = new NWD();
+
+
+
+        /* Czę
+        NWD nwdModel = new NWD();
         NWW nwwModel = new NWW();
         ResultView view = new ResultView();
         ArrayList<Integer> values = new ArrayList<>();

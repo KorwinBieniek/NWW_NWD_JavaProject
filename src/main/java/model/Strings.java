@@ -2,6 +2,7 @@ package model;
 
 /**
  * @author Korwin Bieniek
+ * Class to return a message while comparing length of args
  */
 public enum Strings {
     FIRST_MESSAGE("There should be 2 arguments and 3 were passed"),
@@ -18,6 +19,9 @@ public enum Strings {
 
     /* (non-Javadoc)
      * @see java.lang.Enum#toString()
+     */
+    /**
+     * @return returns the text parameter from the enum
      */
     @Override
     public String toString() {

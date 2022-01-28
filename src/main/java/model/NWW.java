@@ -30,9 +30,12 @@ public class NWW {
 
     /**
      * @param arrOfElements - the array of values that the least common multiplier will be calculated on
+     * @param firstLength   - the length that is taken as the first command line argument, it specifies how many values should be entered
+     * @param secondLength  - the real length of an array, so the number of command line arguments that were actually passed to the function.
      * @return least common multiplier of a list of values
+     * @throws NotEnoughArgumentsException this exception is thrown when there are too many or not enough arguments passed to an array
      */
-    public int leastCommonMultiplier(int firstLength, int secondLength, ArrayList<Integer> arrOfElements) throws NegativeValuesException, NotEnoughArgumentsException {
+    public int leastCommonMultiplier(int firstLength, int secondLength, ArrayList<Integer> arrOfElements) throws NotEnoughArgumentsException {
         int lcmOfArrayElement = 1;
         int divisor = 2;
 
@@ -45,9 +48,6 @@ public class NWW {
             boolean isDivisible = false;
 
             for (int i = 0; i < arrOfElements.size(); i++) {
-                if (arrOfElements.get(i) < 0) {
-                    throw new NegativeValuesException("No negative are allowed");
-                }
                 if (arrOfElements.get(i) == 0) {
                     return 0;
                 } //else if (arrOfElements.get(i) < 0) {

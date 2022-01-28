@@ -40,18 +40,18 @@ public class NWD {
     }
 
     /**
-     * @param arrOfNums - array of values that the greatest common divisor will be taken from
+     * @param arrOfNums    - array of values that the greatest common divisor will be taken from
+     * @param firstLength  - the length that is taken as the first command line argument, it specifies how many values should be entered
+     * @param secondLength - the real length of an array, so the number of command line arguments that were actually passed to the function.
      * @return greatest common divisor of a list of numbers
+     * @throws NotEnoughArgumentsException this exception is thrown when there are too many or not enough arguments passed to an array
      */
-    public Integer greatestCommonDivisorForArray(int firstLength, int secondLength, ArrayList<Integer> arrOfNums) throws NegativeValuesException, NotEnoughArgumentsException {
+    public Integer greatestCommonDivisorForArray(int firstLength, int secondLength, ArrayList<Integer> arrOfNums) throws NotEnoughArgumentsException {
         int result = 0;
         if (firstLength > secondLength || firstLength < secondLength) {
             throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
         }
         for (int element : arrOfNums) {
-            if (element < 0) {
-                throw new NegativeValuesException("No negative are allowed");
-            }
             result = greatestCommonDivisor(result, element);
 
             if (result == 1) {

@@ -7,7 +7,7 @@ package controller;
 
 import model.*;
 import view.GraphicalUserInterface;
-import view.ResultView;
+import view.GuiExceptions;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -19,17 +19,14 @@ import java.util.ArrayList;
 public class Controller {
     private final NWD nwdModel;
     private final NWW nwwModel;
-    private final ResultView view;
 
     /**
      * @param nwdModel - the instance of an nwdModel object from NWD class
      * @param nwwModel - the instance of an nwwModel object from NWW class
-     * @param view     - the instance of a view class
      */
-    public Controller(NWD nwdModel, NWW nwwModel, ResultView view) {
+    public Controller(NWD nwdModel, NWW nwwModel) {
         this.nwdModel = nwdModel;
         this.nwwModel = nwwModel;
-        this.view = view;
     }
 
     public void setNWDValue(int value) {
@@ -54,10 +51,6 @@ public class Controller {
         return nwwModel.getMultiplyValue();
     }
 
-    public void updateView() {
-        view.printValue(nwdModel.getDivisorValue(), nwwModel.getMultiplyValue());
-    }
-
     /**
      * @param firstLength  - the default number of values
      * @param secondLength - the actual number of values
@@ -66,7 +59,7 @@ public class Controller {
 
     /**
      * @author Korwin Bieniek
-     * @version 2.0.1
+     * @version 3.0.0
      *
      * First parameter is the length of the list and next parameters are the values.
      * The number of values provided has to be equal to the length, otherwise an exception will be thrown.
@@ -78,38 +71,30 @@ public class Controller {
     public static ArrayList<Integer> values = new ArrayList<>();
     public static int listLength;
 
-    public static void main(String[] args) throws NotEnoughArgumentsException, NegativeValuesException {
+    public static void main(String[] args) {
         GuiExceptions exceptions = new GuiExceptions();
-        listLength = Integer.parseInt(args[0]);
+        try {
+            listLength = Integer.parseInt(args[0]);
+            if (listLength < 0) {
+                exceptions.showLengthLessThanZeroException();
+            }
+        } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+            exceptions.nonArgumentsException();
+        }
+
         try {
             for (int i = 1; i <= listLength; i++) {
+                if (Integer.parseInt(args[i]) < 0) {
+                    exceptions.showNegativeArgumentsException();
+                }
                 values.add(Integer.parseInt(args[i]));
             }
-        } catch(ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+        } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
             exceptions.showNotEnoughArgumentsException();
-            System.exit(0);
         }
+
         GraphicalUserInterface application = new GraphicalUserInterface();
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
-        /* Czę
-        NWD nwdModel = new NWD();
-        NWW nwwModel = new NWW();
-        ResultView view = new ResultView();
-        ArrayList<Integer> values = new ArrayList<>();
-        int listLength = Integer.parseInt(args[0]);
-        for (int i = 1; i <= listLength; i++) {
-            values.add(Integer.parseInt(args[i]));
-        }
-        try {
-            view.printValue(nwdModel.greatestCommonDivisorForArray(listLength, args.length - 1, values), nwwModel.leastCommonMultiplier(listLength, args.length - 1, values));
-        } catch (NegativeValuesException e) {
-            System.out.println("Negative values are not allowed");
-        } catch (NotEnoughArgumentsException e) {
-            System.out.println("The number of arguments is incorrect");
-        }*/
 
     }
 }

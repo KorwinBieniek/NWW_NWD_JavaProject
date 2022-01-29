@@ -13,11 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
+ * * The main class for the GUI view
+ * * Whole GUI is handled from this class
+ *
  * @author Korwin Bieniek
  * @version 1.1.0
- *
- * The main class for the GUI view
- * Whole GUI is handled from this class
  */
 public class GraphicalUserInterface extends JFrame {
 
@@ -29,8 +29,8 @@ public class GraphicalUserInterface extends JFrame {
     DefaultTableModel model;
     NWD nwd = new NWD();
     NWW nww = new NWW();
-    ArrayList<Integer> args = Controller.values;
-    int listLength = Controller.listLength;
+    ArrayList<Integer> args = null;
+    int listLength = 0;
 
     /**
      * @return returns a Content Pane
@@ -40,13 +40,12 @@ public class GraphicalUserInterface extends JFrame {
     }
 
     /**
-     * @author Korwin Bieniek
-     * @version 2.0.0
-     * <p>
      * The constructor for GUI panel
      */
-    public GraphicalUserInterface() {
+    public GraphicalUserInterface(ArrayList<Integer> nums, int length) {
 
+        args = nums;
+        listLength = length;
         container = getContentPane();
         container.setLayout(new FlowLayout());
 
@@ -123,7 +122,7 @@ public class GraphicalUserInterface extends JFrame {
                 arrayList.add(Integer.parseInt(s));
             }
         } catch (NumberFormatException numberFormatException) {
-            exceptions.showNumberFormatExceptionDialog();
+            exceptions.showNumberFormatWarning();
         }
         return arrayList;
     }
@@ -133,15 +132,15 @@ public class GraphicalUserInterface extends JFrame {
      */
     private void handleNwwButtonClick(ActionEvent actionEvent) {
         ArrayList<Integer> arrayList = prepareList();
-
         try {
             String values = arrayList.stream().map(Object::toString)
                     .collect(Collectors.joining(", "));
             int result = nww.leastCommonMultiplier(listLength, args.size(), arrayList);
+
             this.resultField.setText(String.valueOf(result));
             model.addRow(new Object[]{"NWW " + values, result});
         } catch (NotEnoughArgumentsException notEnoughArgumentsException) {
-            exceptions.showNotEnoughArgumentsException();
+            exceptions.showNotEnoughArgumentsWarning();
         }
 
     }
@@ -159,7 +158,7 @@ public class GraphicalUserInterface extends JFrame {
                     .collect(Collectors.joining(", "));
             model.addRow(new Object[]{"NWD " + values, result});
         } catch (NotEnoughArgumentsException notEnoughArgumentsException) {
-            exceptions.showNotEnoughArgumentsException();
+            exceptions.showNotEnoughArgumentsWarning();
         }
 
     }

@@ -8,6 +8,8 @@ package model;
 import java.util.ArrayList;
 
 /**
+ * Class to calculate NWW
+ *
  * @author Korwin Bieniek
  * * @version 1.0.0
  */
@@ -36,6 +38,10 @@ public class NWW {
      * @throws NotEnoughArgumentsException this exception is thrown when there are too many or not enough arguments passed to an array
      */
     public int leastCommonMultiplier(int firstLength, int secondLength, ArrayList<Integer> arrOfElements) throws NotEnoughArgumentsException {
+        if (arrOfElements == null) {
+            arrOfElements = new ArrayList<>();
+            return -1;
+        }
         int lcmOfArrayElement = 1;
         int divisor = 2;
 
@@ -50,9 +56,7 @@ public class NWW {
             for (int i = 0; i < arrOfElements.size(); i++) {
                 if (arrOfElements.get(i) == 0) {
                     return 0;
-                } //else if (arrOfElements.get(i) < 0) {
-                //arrOfElements.set(i, arrOfElements.get(i) * -1);
-                //}
+                }
                 if (arrOfElements.get(i) == 1) {
                     counter++;
                 }

@@ -40,13 +40,6 @@ class NWDTest {
                 Arguments.of(0, 5, 0, 5));
     }
 
-    private static Stream<Arguments> provideNegativeTestValues() {
-        return Stream.of(
-                Arguments.of(-1, 0, -1),
-                Arguments.of(-2, 1, 2),
-                Arguments.of(-2, -1, -2));
-    }
-
     private static Stream<Arguments> provideZeroTestValues() {
         return Stream.of(
                 Arguments.of(0, 0, 0, 0));
@@ -62,15 +55,12 @@ class NWDTest {
     @MethodSource("providePositiveTestValues")
     @DisplayName("Positive values should work")
     public void positiveValues(int first, int second, int third, int result) throws NotEnoughArgumentsException {
-        try {
-            ArrayList<Integer> testList = new ArrayList<>();
-            testList.add(first);
-            testList.add(second);
-            testList.add(third);
-            assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList));
-        } catch (AssertionError assertionError) {
-            fail("The values are not equal");
-        }
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList), "Test failed, due to improper result, the result should be " + result);
+
     }
 
     /**
@@ -83,15 +73,12 @@ class NWDTest {
     @MethodSource("provideZeroTestValues")
     @DisplayName("Zero value should work")
     public void zeroValue(int first, int second, int third, int result) throws NotEnoughArgumentsException {
-        try {
-            ArrayList<Integer> testList = new ArrayList<>();
-            testList.add(first);
-            testList.add(second);
-            testList.add(third);
-            assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList));
-        } catch (AssertionError assertionError) {
-            fail("The values are not equal");
-        }
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        assertEquals(result, nwd.greatestCommonDivisorForArray(3, 3, testList), "Test failed, due to improper result, the result should be " + result);
+
     }
 
 
@@ -104,17 +91,14 @@ class NWDTest {
     @MethodSource("providePositiveTestValues")
     @DisplayName("The message below should appear when there are not enough values provided")
     public void isExceptionMessageCorrectForNotEnoughValues(int first, int second, int third) throws NotEnoughArgumentsException {
-        try {
-            ArrayList<Integer> testList = new ArrayList<>();
-            testList.add(first);
-            testList.add(second);
-            testList.add(third);
-            NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
-                    () -> nwd.greatestCommonDivisorForArray(2, 3, testList));
-            assertEquals(Strings.FIRST_MESSAGE.toString(), exception.getMessage());
-        } catch (AssertionError assertionError) {
-            fail("The exception doesn't occur");
-        }
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
+                () -> nwd.greatestCommonDivisorForArray(2, 3, testList));
+        assertEquals(Strings.FIRST_MESSAGE.toString(), exception.getMessage(), "The test failed, NotEnoughArgumentsException hasn't been thrown - too many values");
+
     }
 
 
@@ -127,16 +111,24 @@ class NWDTest {
     @MethodSource("providePositiveTestValues")
     @DisplayName("The message below should appear when there are too many values provided")
     public void isExceptionMessageCorrectForTooManyValues(int first, int second, int third) throws NotEnoughArgumentsException {
-        try {
-            ArrayList<Integer> testList = new ArrayList<>();
-            testList.add(first);
-            testList.add(second);
-            testList.add(third);
-            NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
-                    () -> nwd.greatestCommonDivisorForArray(4, 3, testList));
-            assertEquals(Strings.SECOND_MESSAGE.toString(), exception.getMessage());
-        } catch (AssertionError assertionError) {
-            fail("The exception doesn't occur");
-        }
+        ArrayList<Integer> testList = new ArrayList<>();
+        testList.add(first);
+        testList.add(second);
+        testList.add(third);
+        NotEnoughArgumentsException exception = assertThrows(NotEnoughArgumentsException.class,
+                () -> nwd.greatestCommonDivisorForArray(4, 3, testList));
+        assertEquals(Strings.SECOND_MESSAGE.toString(), exception.getMessage(), "The test failed, NotEnoughArgumentsException hasn't been thrown - not enough values");
+    }
+
+    /**
+     * @param first  - the first value of the arguments passed from the stream
+     * @param second - the second value of the arguments passed from the stream
+     * @param third  - the third value of the arguments passed from the stream
+     */
+    @ParameterizedTest
+    @MethodSource("providePositiveTestValues")
+    @DisplayName("Null reference passed should not throw NullPointerException")
+    public void doesMethodWorkForNullReference(int first, int second, int third) throws NotEnoughArgumentsException {
+        assertEquals(-1, nwd.greatestCommonDivisorForArray(3, 3, null), "Test failed because the function doesn't return -1 (error code) when the null reference is passed");
     }
 }

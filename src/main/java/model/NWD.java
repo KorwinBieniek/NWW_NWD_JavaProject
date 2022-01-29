@@ -8,6 +8,8 @@ package model;
 import java.util.ArrayList;
 
 /**
+ * Class to calculate NWD
+ *
  * @author Korwin Bieniek
  * @version 1.0.0
  */
@@ -47,6 +49,10 @@ public class NWD {
      * @throws NotEnoughArgumentsException this exception is thrown when there are too many or not enough arguments passed to an array
      */
     public Integer greatestCommonDivisorForArray(int firstLength, int secondLength, ArrayList<Integer> arrOfNums) throws NotEnoughArgumentsException {
+        if (arrOfNums == null) {
+            arrOfNums = new ArrayList<>();
+            return -1;
+        }
         int result = 0;
         if (firstLength > secondLength || firstLength < secondLength) {
             throw new NotEnoughArgumentsException("There should be " + firstLength + " arguments and " + secondLength + " were passed");
